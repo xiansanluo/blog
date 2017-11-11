@@ -1,0 +1,34 @@
+baseurl = "http://enhome.vip/"
+title = "我的个人博客"
+canonifyurls = true
+paginate = 10
+theme = "startbootstrap-clean-blog"
+languageCode = "en-us"
+copyright = "Code released under the Apache 2.0 license."
+googleAnalytics = "UA-123-45" # delete or comment to disable Google Analytics JS generation
+disqusShortname = "YourDisqusShortname" #delete or comment to disable Disqus comments
+
+[author]
+  name = "xiansan Luo"
+
+[params]
+  DateForm = "Mon, Oct 21, 2017"
+  Description = "记录DevOps历程"
+  Author = "xiansan Luo"
+  email = "luoxsan@foxmail.com" #Remove this line if you would prefer not to use an email button in the footer.
+  postSummariesFrontPage = 4 #Number of post summaries to show on front page, comment out to allow default(4)
+  showReadTime = true #set to false to exclude read time from header of post
+
+[[params.social]]
+  title = "github"
+  url = "https://github.com/xiansanluo"
+
+[[menu.main]]
+  name = "主页"
+  url = "/"
+  weight = -200
+[[menu.main]]
+ name = "文档"
+ url = "/post/"
+ weight = -180
+

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 我的个人博客</title>
+    <link>http://enhome.vip/post/</link>
+    <description>Recent content in Posts on 我的个人博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Code released under the Apache 2.0 license.</copyright>
+    <lastBuildDate>Thu, 09 Nov 2017 18:57:49 +0800</lastBuildDate>
+    
+	<atom:link href="http://enhome.vip/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Go Game</title>
+      <link>http://enhome.vip/post/gogame/</link>
+      <pubDate>Thu, 09 Nov 2017 18:57:49 +0800</pubDate>
+      
+      <guid>http://enhome.vip/post/gogame/</guid>
+      <description>FORMAT: 1A HOST: http://gogo.local.micropcf.io/
+Go Game This is a simple API for a small game server handling the game of Go. For the rules used as a reference when building this application, see The Rules of Go
+Group Matches A match is the unit of active gameplay within Go. Each match is assigned a unique GUID upon creation, and all references to the match via this API are thereafter keyed by the match ID.</description>
+    </item>
+    
+    <item>
+      <title>readme</title>
+      <link>http://enhome.vip/post/readme/</link>
+      <pubDate>Thu, 19 Oct 2017 12:07:49 +0800</pubDate>
+      
+      <guid>http://enhome.vip/post/readme/</guid>
+      <description> README 标签： readme
+目录：
+ handler 处理业务逻辑 docker 用于构建镜像  文件：
+ main.go 主要完成：   配置初始化
+接入prometheus
+平滑关闭
+侦听业务端口(8080)和prometheus端口(23333)
+  glide.yml 用于包管理 Makefile 用户go test, go get等 .gitlab-ci.yml 配置ci pipline，会使用到Makefile中的默认make（进行go test，glide install和其他依赖包的获取）  db使用 service.go:
+type stringService struct{ db *sql.DB } func NewService() Service { return &amp;amp;stringService{ db: db, } }  main.go：
+svc := handler.NewService(db)  </description>
+    </item>
+    
+    <item>
+      <title>性能测试工具locust的使用</title>
+      <link>http://enhome.vip/post/locust/</link>
+      <pubDate>Thu, 19 Oct 2017 12:07:49 +0800</pubDate>
+      
+      <guid>http://enhome.vip/post/locust/</guid>
+      <description>性能测试工具locust的使用 标签（空格分隔）： 未分类
+Locust是一个用于可扩展的，分布式的，性能测试的，开源的，用Python编写框架/工具，它非常容易使用，也非常好学。它的主要思想就是模拟一群用户将访问你的网站。每个用户的行为由你编写的python代码定义，同时可以从Web界面中实时观察到用户的行为。 特点：
+ 用简单python语言编写测试脚本，非常简单轻便。不需要笨重的UI和臃肿的xml代码，基于协同而非回调。 分布式的，可扩展性的，可模拟上百万用户。Locust支持多机器的性能测试，每台机器可以模拟上千用户，当然这可以控制的， locust有一个整洁的HTML+JS的用户界面，实时显示相关测试细节。由于用户界面是基于网络的，它是跨平台的和容易扩展。 可以测试任何系统，尽管Locust是基于网站的，但它几乎可以测试任何系统，只要你写一个客户端。  我们已经在kubernetes中搭建了一个demo，只需要简单修改就可以直接用来测试你自己的程序。 NOTE:只支持http服务，rpc服务需要编写http的client才能使用 ##一、编写测试样例
+测试样例请放到https://github.com/xiansan.luo/locustfile 下面，可以参考里面的example进行编写，最后进行提交。
+##二、启动k8s loadtest pipline
+ 进入spinnaker 手动触发pipline（需要修改参数：SCENARIO_FILE为提交的测试样例文件，TARGET_URL为被测服务的endpoint） 等待pipline进行到Manual Judgement  ##三、打开web页面，进行测试
+ 打开staging vpn 浏览器输入（这里的ip可以是任意一台staging的机器） 进行测试，下载测试结果等  ##四、销毁k8s Server Group
+ 在k8s的pipline里Manual Judgement点击Continue  更多内容请参考官方文档：https://docs.locust.io/en/latest/what-is-locust.html</description>
+    </item>
+    
+    <item>
+      <title>服务开发</title>
+      <link>http://enhome.vip/post/overview/</link>
+      <pubDate>Thu, 19 Oct 2017 12:07:49 +0800</pubDate>
+      
+      <guid>http://enhome.vip/post/overview/</guid>
+      <description>overview（服务开发） 标签（空格分隔）： 服务 流程 介绍
+[TOC]
+在一个服务的生命周期中（包括开发，测试，构建，部署，监控，报警等），开发人员可能会用到的一些wiki和基础的组件。本文简单介绍了这些wiki和组件，罗列了他们的入口，目的是协助开发人员快速找到需要的工具和wiki。
+##一、准备工作
+###1.1 工程师wiki
+这是必看的wiki。里面涉及新人账号的开通，git指南，项目管理，CI/CD等。是基础必备的工作。
+###1.2 Platform Team
+ 里面涉及了vpn账号的申请（由于我们使用的是aws的vpc网络，目前访问spinnaker、playdock、grafana等都需要通过vpn） iam是公司内部一个权限系统，通过iam账号，可以登录playdock 工具黄页，里面包含了几乎所有可能涉及到的基础工具平台。  ##二、开发阶段
+###2.1 资源申请 在开发阶段，可能会用到许多资源，比如mysql，redis，mq等。相关的wiki如下：
+ kafka，zookeeper 可以在工具黄页基础架构服务中找到相应的wiki 这里已经有一些公用资源，比如staging的rds，redis等。  如果需要额外申请比如S3或其他AWS的资源时。基本步骤参考staging repository或者prod repository的README。同时还可能需要阅读以下wiki：（注意：playdock使用内部iam账号登陆）   如何写 Terraform 配置代码 上面提到的两个repository都是使用Terraform格式组织的 Playdock101 Playdock
+ ###2.2 登陆staging机器
+我们建议尽量不要登陆机器进行操作，但是如有必要，也是可以申请的。可以参考ssh staging
+##三、CI
+###3.1 代码构建、测试、生成镜像
+目前使用了gitlab ci，参考工具黄页中基础设施gitlab ci。那里面还包含了最佳实践，建议在自己编写gitlab-ci.yml多进行参考。
+###3.2 本地调试生成的镜像
+本地想调试时，可能会用到构建出来的镜像。这个时候可以通过工具黄页中的Private Repository的harbor来获取镜像。
+##四、CD
+对于部署，我们使用了kubernetes集群，通过spinnaker进行部署。 ###4.1 使用CI推送的镜像作为触发器，进行自动构建
+参考工具黄页中基础设施spinnaker
+###4.2 创建LoadBalance并挂载到相应服务下
+针对不同目的的服务，有以下三种lb：
+ 供k8s集群内部使用 需要集群外，内网之间访问 需要外网访问  配置方法请参考工具黄页中基础设施spinnaker
+###4.3 暴露/metrics，供prometheus接入</description>
+    </item>
+    
+  </channel>
+</rss>

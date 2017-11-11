@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>服务开发 -- 我的个人博客</title>
+
+    
+
+    
+    <link href="http://enhome.vip//css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="http://enhome.vip//css/clean-blog.min.css" rel="stylesheet">
+
+    
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    
+    
+    
+
+</head>
+
+<body>
+
+    
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://enhome.vip/">我的个人博客</a>
+            </div>
+
+                       
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li>
+                        <a href="http://enhome.vip/">主页</a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://enhome.vip/post/">文档</a>
+                    </li>
+                    
+                  </ul>
+            </div>
+           
+
+        </div>
+        
+    </nav>
+
+
+    
+    
+    <header class="intro-header" style="background-image: url('http://enhome.vip//img/post-bg.jpg')">
+    
+      <div class="container">
+        <div class="row">
+           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+             <div class="post-heading">
+               <h1>服务开发</h1>
+               <h2 class="subheading"></h2>
+               <span class="meta">
+                 
+  A 1 minute read,
+
+Posted by <a href="#">xiansan Luo</a> on Thu, Oct 1910, 19107
+<br />
+In 
+
+<br />
+Tags 
+
+               </span>
+             </div>
+           </div>
+        </div>
+      </div>
+    </header>
+
+    
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  
+
+<h1 id="overview-服务开发">overview（服务开发）</h1>
+
+<p>标签（空格分隔）： 服务 流程 介绍</p>
+
+<p>[TOC]</p>
+
+<p>在一个服务的生命周期中（包括开发，测试，构建，部署，监控，报警等），开发人员可能会用到的一些wiki和基础的组件。本文简单介绍了这些wiki和组件，罗列了他们的入口，目的是协助开发人员快速找到需要的工具和wiki。</p>
+
+<p>##一、准备工作</p>
+
+<p>###1.1 <a href="https://phab.com/w/engineer/">工程师wiki</a></p>
+
+<p>这是必看的wiki。里面涉及新人账号的开通，git指南，项目管理，CI/CD等。是基础必备的工作。</p>
+
+<p>###1.2 <a href="https://phab.com/w/engineer/platform/">Platform Team</a></p>
+
+<ul>
+<li>里面涉及了vpn账号的申请（由于我们使用的是aws的vpc网络，目前访问spinnaker、playdock、grafana等都需要通过vpn）</li>
+<li>iam是公司内部一个权限系统，通过iam账号，可以登录playdock</li>
+<li>工具黄页，里面包含了几乎所有可能涉及到的基础工具平台。</li>
+</ul>
+
+<p>##二、开发阶段</p>
+
+<p>###2.1 资源申请
+在开发阶段，可能会用到许多资源，比如mysql，redis，mq等。相关的wiki如下：</p>
+
+<ul>
+<li>kafka，zookeeper 可以在<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>基础架构服务中找到相应的wiki</li>
+<li>这里已经有一些<a href="https://phab.com/w/engineer/ops/aws/apply/">公用资源</a>，比如staging的rds，redis等。
+<span id="playdock"></span></li>
+<li>如果需要额外申请比如S3或其他AWS的资源时。基本步骤参考<a href="https://git.com/ops/rasen">staging repository</a>或者<a href="https://git.com/ops/spiral">prod repository</a>的README。同时还可能需要阅读以下wiki：（注意：playdock使用内部<a href="https://phab.com/w/engineer/iam/">iam</a>账号登陆）</li>
+</ul>
+
+<blockquote>
+<p><a href="https://phab.com/w/engineer/ops/playdock/terraform/">如何写 Terraform 配置代码</a> 上面提到的两个repository都是使用Terraform格式组织的
+<a href="https://phab.com/w/engineer/ops/playdock/101/">Playdock101</a>
+<a href="https://phab.com/w/engineer/ops/playdock/">Playdock</a></p>
+</blockquote>
+
+<p>###2.2 登陆staging机器</p>
+
+<p>我们建议尽量不要登陆机器进行操作，但是如有必要，也是可以申请的。可以参考<a href="https://phab.com/w/engineer/ops/aws-dev-ssh/">ssh staging</a></p>
+
+<p>##三、CI</p>
+
+<p>###3.1 代码构建、测试、生成镜像</p>
+
+<p>目前使用了gitlab ci，参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中基础设施<code>gitlab ci</code>。那里面还包含了最佳实践，建议在自己编写<code>gitlab-ci.yml</code>多进行参考。</p>
+
+<p>###3.2 本地调试生成的镜像</p>
+
+<p>本地想调试时，可能会用到构建出来的镜像。这个时候可以通过<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中的<code>Private Repository</code>的harbor来获取镜像。</p>
+
+<p>##四、CD</p>
+
+<p>对于部署，我们使用了<a href="https://phab.com/w/engineer/ops/kubernetes/">kubernetes</a>集群，通过spinnaker进行部署。
+###4.1 使用CI推送的镜像作为触发器，进行自动构建</p>
+
+<p>参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中基础设施<code>spinnaker</code></p>
+
+<p>###4.2 创建<code>LoadBalance</code>并挂载到相应服务下</p>
+
+<p>针对不同目的的服务，有以下三种lb：</p>
+
+<ul>
+<li>供k8s集群内部使用</li>
+<li>需要集群外，内网之间访问</li>
+<li>需要外网访问</li>
+</ul>
+
+<p>配置方法请参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中基础设施<code>spinnaker</code></p>
+
+<p>###<span id="jump">4.3 暴露<code>/metrics</code>，供<code>prometheus</code>接入</span></p>
+
+<p>需要在配置<code>spinnaker</code>的<code>pipline</code>时，额外增加几个pod annotations。具体参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中基础设施<code>spinnaker</code></p>
+
+<p>###4.4 访问其他服务的地址</p>
+
+<p>在<a href="https://spinnaker.com/,针对外网的lb">spinnaker</a>相应服务的<code>LOAD BANLANCERS</code>下，可以看到相应的服务地址。如果是需要访问外网地址，请查看相应的域名。对于k8s内外之间的访问，可以参考<a href="https://phab.com/w/engineer/ops/kubernetes/">Kubernetes (k8s)</a>的FAQ部分。</p>
+
+<p>###4.5 服务的动态扩容缩容，资源配额，健康检查等</p>
+
+<p>参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中基础设施<code>spinnaker</code></p>
+
+<p>##五、日志</p>
+
+<p>###5.1 使用kibana搜集日志
+集群里的服务，只要日志打到stdout，就可以使用kibana进行日志的收集。如果不是集群内服务，请参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中日志收集<code>fluentd</code>进行配置。</p>
+
+<p>###5.2 日志查询
+参考<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中日志收集<code>kibana</code>。里面包含了staging和prod的kibana地址。登录账号可以找@liang开通。
+这里还有<a href="https://phab.com/w/engineer/ops/kibana/">Kibana常用查询</a>和<a href="https://phab.com/w/engineer/ops/kibana/kibana日志监控/">Kibana日志监控</a></p>
+
+<p>###5.2 使用sentry收集错误日志并告警</p>
+
+<p>针对错误日志，还可以通过sentry直接进行收集，sentry的地址也可以通过<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>得到。sentry 的用法可以参考<a href="https://github.com/getsentry/sentry">github sentry</a>。</p>
+
+<p>##六、监控报警</p>
+
+<p>以下内容都可以通过<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中找到他们的地址和wiki。</p>
+
+<p>###6.1 接入prometheus并添加报警</p>
+
+<p>prometheus会收集服务暴露的metrics（当然不止服务，还有k8s集群本身，aws的ec2等），并通过pagerduty进行监控报警。暴露<code>/metrics</code>的方法请参考<a href="#jump">4.3</a>
+<a href="https://phab.com/w/engineer/ops/prometheus/">Prometheus-Metric&amp;Alert</a>里介绍了：</p>
+
+<ul>
+<li>各个环境的prometheus地址</li>
+<li>服务的接入方法，包括ec2和kubernetes</li>
+<li>报警的添加和查看</li>
+</ul>
+
+<p>###6.2 通过grafana查看监控图表</p>
+
+<p>grafana展示了许多的监控信息，里面有许多的dashboard可以使用，比如:</p>
+
+<ul>
+<li><code>shared-pods</code> 展示了k8s集群的pod的状态</li>
+<li><code>shared-rds</code> 展示了数据库的监控信息</li>
+<li><code>shared-nodes</code> 展示了ec2的一些监控信息</li>
+</ul>
+
+<p>当然，你也可以自定义自己服务的dashboard，一些起名规范请参考<a href="https://phab.com/w/engineer/ops/grafana/">Grafana 起名规范</a></p>
+
+<p>###6.2 通过pagerduty申请账号，报警通知</p>
+
+<p>在<code>prometheus</code>中添加了报警，当报警触发的时候，会通知<code>pagerduty</code>进行报警。<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中可以看到具体操作方法。开通账号也是需要通过<code>playdock</code>，<code>playdock</code>具体使用方法可以参考<a href="#playdock">资源申请</a></p>
+
+<p>###6.3 ruby 通过newrelic监控服务性能</p>
+
+<p>其地址在<a href="https://phab.com/w/engineer/platform/portal/">工具黄页</a>中可以找到。</p>
+
+<p>###6.4 调用链跟踪</p>
+
+<p>对于微服务的架构，由于服务数量很多，可能一次请求会形成内部系统的多次调用。通过<code>zipkin</code>，我们可以追踪到一次调用所经过的路径和每个路径的延迟等，帮助我们优化服务，分析业务等。
+zipkin是通过kafka接入的，详细方法请参考：</p>
+
+<ul>
+<li><a href="https://phab.com/w/engineer/ops/zipkin/">zipkin 地址和接入方式</a></li>
+<li><a href="https://phab.com/w/engineer/kafka/">kafka</a></li>
+<li><a href="https://github.com/openzipkin/zipkin-go-opentracing">zipkin-go-opentracing</a></li>
+<li><a href="https://github.com/openzipkin/zipkin-ruby">zipkin-ruby</a></li>
+</ul>
+
+                  
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <ul class="list-inline text-center">
+                    
+                      <li>
+                        <a href="mailto:luoxsan@foxmail.com">
+                          <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                          </span>
+                        </a>
+                      </li>
+                    
+                    
+                    <li>
+                      <a href="https://github.com/xiansanluo">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                      </a>
+                    </li>
+                    
+                  </ul>
+                  <p class="copyright text-muted">Code released under the Apache 2.0 license.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="http://enhome.vip//js/jquery.min.js"></script>
+
+    
+    <script src="http://enhome.vip//js/bootstrap.min.js"></script>
+
+    
+    <script src="http://enhome.vip//js/clean-blog.js"></script>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-123-45', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Go Game -- 我的个人博客</title>
+
+    
+
+    
+    <link href="http://enhome.vip//css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="http://enhome.vip//css/clean-blog.min.css" rel="stylesheet">
+
+    
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    
+    
+    
+
+</head>
+
+<body>
+
+    
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://enhome.vip/">我的个人博客</a>
+            </div>
+
+                       
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li>
+                        <a href="http://enhome.vip/">主页</a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://enhome.vip/post/">文档</a>
+                    </li>
+                    
+                  </ul>
+            </div>
+           
+
+        </div>
+        
+    </nav>
+
+
+    
+    
+    <header class="intro-header" style="background-image: url('http://enhome.vip//img/post-bg.jpg')">
+    
+      <div class="container">
+        <div class="row">
+           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+             <div class="post-heading">
+               <h1>Go Game</h1>
+               <h2 class="subheading"></h2>
+               <span class="meta">
+                 
+  A 5 minute read,
+
+Posted by <a href="#">xiansan Luo</a> on Thu, Oct 911, 9117
+<br />
+In 
+
+<br />
+Tags 
+
+               </span>
+             </div>
+           </div>
+        </div>
+      </div>
+    </header>
+
+    
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  
+
+<p>FORMAT: 1A
+HOST: <a href="http://gogo.local.micropcf.io/">http://gogo.local.micropcf.io/</a></p>
+
+<h1 id="go-game">Go Game</h1>
+
+<p>This is a simple API for a small game server handling the game of Go. For the rules used as a reference when building this application,
+see <a href="https://en.wikipedia.org/wiki/Rules_of_go">The Rules of Go</a></p>
+
+<h1 id="group-matches">Group Matches</h1>
+
+<p>A match is the unit of active gameplay within Go. Each match is assigned a unique GUID upon creation, and all references to the match
+via this API are thereafter keyed by the match ID.</p>
+
+<h2 id="matches-collection-matches">Matches Collection [/matches]</h2>
+
+<p>The matches collection represents the matches currently ongoing being handled by the server at the time. It does not cover historical access to old game records.</p>
+
+<h3 id="list-all-matches-get">List All Matches [GET]</h3>
+
+<p>Lists all currently active matches on the server.</p>
+
+<ul>
+<li><p>Response 200 (application/json)</p>
+
+<pre><code>[
+    {
+        &quot;id&quot; : &quot;5a003b78-409e-4452-b456-a6f0dcee05bd&quot;,
+        &quot;started_at&quot;: 13231239123391,
+        &quot;turn&quot; : 27,
+        &quot;gridsize&quot; : 19,
+        &quot;playerWhite&quot; : &quot;bob&quot;,
+        &quot;playerBlack&quot; : &quot;alfred&quot;
+    }
+]
+</code></pre></li>
+</ul>
+
+<h3 id="start-a-new-match-post">Start a New Match [POST]</h3>
+
+<p>You can create a new match with this action. It takes information about the players and will set up a new game. The game will start at round 1, and it will be <strong>black</strong>&rsquo;s turn to
+play. Per standard Go rules, <strong>black</strong> plays first.</p>
+
+<ul>
+<li><p>Request (application/json)</p>
+
+<pre><code>{
+    &quot;gridsize&quot; : 19,
+    &quot;playerWhite&quot; : &quot;bob&quot;,
+    &quot;playerBlack&quot; : &quot;alfred&quot;
+}
+</code></pre></li>
+
+<li><p>Response 201 (application/json)</p>
+
+<ul>
+<li><p>Headers</p>
+
+<pre><code>Location: /matches/5a003b78-409e-4452-b456-a6f0dcee05bd
+</code></pre></li>
+
+<li><p>Body</p>
+
+<pre><code>{
+    &quot;id&quot; : &quot;5a003b78-409e-4452-b456-a6f0dcee05bd&quot;,
+    &quot;started_at&quot;: 13231239123391,
+    &quot;gridsize&quot; : 19,
+    &quot;playerBlack&quot; : &quot;alfred&quot;,
+    &quot;playerWhite&quot; : &quot;bob&quot;
+}
+</code></pre></li>
+</ul></li>
+</ul>
+
+<h2 id="match-status-matches-match-id">Match Status [/matches/{match_id}]</h2>
+
+<p>Use the match status resource to interrogate various aspects of an individual running match.</p>
+
+<ul>
+<li><p>Parameters</p>
+
+<ul>
+<li>match_id: <code>5a003b78-409e-4452-b456-a6f0dcee05bd</code> (string) - The id of the running match.</li>
+</ul></li>
+</ul>
+
+<h3 id="get-match-details-get">Get Match Details [GET]</h3>
+
+<p>Query the details of an ongoing match.</p>
+
+<ul>
+<li><p>Response 200 (application/json)</p>
+
+<pre><code>{
+    &quot;id&quot; : &quot;5a003b78-409e-4452-b456-a6f0dcee05bd&quot;,
+    &quot;started_at&quot;: 13231239123391,
+    &quot;gridsize&quot; : 6,
+    &quot;turn&quot; : 0,
+    &quot;playerWhite&quot; : &quot;bob&quot;,
+    &quot;playerBlack&quot; : &quot;alice&quot;,
+    &quot;gameboard&quot;: [
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 1, 2, 0, 0, 0],
+        [ 0, 1, 2, 0, 1, 2],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
+    ]
+}
+</code></pre></li>
+</ul>
+
+<h3 id="get-current-liberties-for-match-get-matches-match-id-liberties">Get Current Liberties for Match [GET /matches/{match_id}/liberties]</h3>
+
+<p>Liberties are positions adjacent to a player chain. You might use this resource if your game client implements a hint or cheat functionality that highlights potential positions onto which a player can place a stone.</p>
+
+<ul>
+<li><p>Parameters</p>
+
+<ul>
+<li>match_id: <code>5a003b78-409e-4452-b456-a6f0dcee05bd</code> (string) - The id of the running match.</li>
+</ul></li>
+
+<li><p>Response 200 (application/json)</p>
+
+<pre><code>[
+    {
+        &quot;player&quot; : &quot;white&quot;,
+        &quot;position&quot; : {
+            &quot;x&quot; : 1,
+            &quot;y&quot; : 2
+        },
+    {
+        &quot;player&quot; : &quot;black&quot;,
+        &quot;position&quot; : {
+            &quot;x&quot; : 2,
+            &quot;y&quot; : 3
+        }
+    }
+]
+</code></pre></li>
+</ul>
+
+<h3 id="get-current-chains-for-match-get-matches-match-id-chains">Get Current Chains for Match [GET /matches/{match_id}/chains]</h3>
+
+<p>A chain is a list of adjacent stones. See Go rules for a definition of adjacent. Note that a single stone can be considered a chain.
+You might want to use this resource if your game client implements handy functionality that might highlight any
+given player&rsquo;s chains to aid them in strategy.</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>match_id: <code>5a003b78-409e-4452-b456-a6f0dcee05bd</code> (string) - The id of the running match.</li>
+</ul></li>
+
+<li><p>Response 200 (application/json)
+    [
+        {
+            &ldquo;player&rdquo; : &ldquo;white&rdquo;,
+            &ldquo;positions&rdquo;: [
+                { &ldquo;x&rdquo;: 10, &ldquo;y&rdquo;: 9 },
+                { &ldquo;x&rdquo;: 11, &ldquo;y&rdquo;: 9 }
+            ]
+        }
+    ]</p>
+
+<h1 id="group-moves">Group Moves</h1>
+
+<p>A move consists of a single player placing a stone on the board. Players have the option of <strong>passing</strong> on a given turn, in which case the position field may
+be missing or empty, indicating a pass. A turn consists of both players having performed a <strong>move</strong>.</p>
+
+<h2 id="moves-collection-matches-match-id-moves">Moves Collection [/matches/{match_id}/moves]</h2>
+
+<p>This resource is available for interrogating moves within a match, or for players to perform a move.</p></li>
+
+<li><p>Parameters</p>
+
+<ul>
+<li><p>match_id: <code>5a003b78-409e-4452-b456-a6f0dcee05bd</code> (string) - The id of the running match.</p>
+
+<h3 id="get-a-sequential-list-of-all-moves-performed-in-a-match-get">Get a Sequential List of All Moves Performed in a Match [GET]</h3>
+
+<p>If you need to get a time-ordered list of every position claimed by players in a match, you can use this resource. This might
+be helpful if your game client needs to maintain a UI element that displays the list of moves taken thus far. This only
+works for active matches, and is not intended for historical queries.</p></li>
+</ul></li>
+
+<li><p>Response 200 (application/json)
+    [
+        {
+            &ldquo;player&rdquo; : &ldquo;black&rdquo;,
+            &ldquo;position&rdquo;: { &ldquo;x&rdquo;: 4, &ldquo;y&rdquo;, 10 }
+        },
+        {
+            &ldquo;player&rdquo; : &ldquo;white&rdquo;,
+            &ldquo;position&rdquo; : { &ldquo;x&rdquo; : 3, &ldquo;y&rdquo; : 5 }
+        }
+    ]</p>
+
+<h3 id="make-a-move-post">Make a Move [POST]</h3>
+
+<p>Use this resource to submit a move to the game server. If the move is an illegal move, then the server will reply with a <strong>400</strong> status code, indicating
+a bad request. The reply will contain a message describing the reason for the failed attempt to move.
+Reasons for receiving messages about an illegal move:</p></li>
+
+<li><p>Position is already occupied</p></li>
+
+<li><p>Position is not one of the player&rsquo;s current liberties</p></li>
+
+<li><p>After the move would be evaluated and captures evaluated, the move would result in self-capture (suicide)</p></li>
+
+<li><p>The move would result in a violation of the <strong>superko</strong> rule, which prevents the game board from being put in a state in which it has previously been within this match.</p></li>
+</ul>
+
+<p>A move containing a position is considered a <strong>play</strong> while a move without a position is considered a <strong>pass</strong>.</p>
+
+<p>Leaving the <strong>position</strong> field empty indicates a pass.</p>
+
+<ul>
+<li><p>Request (application/json)</p>
+
+<pre><code>{
+    &quot;player&quot; : 2,
+    &quot;position&quot; : { &quot;x&quot; : 3, &quot;y&quot; : 10 }
+}
+</code></pre></li>
+
+<li><p>Response 201 (application/json)</p>
+
+<pre><code> {
+        &quot;id&quot; : &quot;5a003b78-409e-4452-b456-a6f0dcee05bd&quot;,
+        &quot;started_at&quot;: 13231239123391,
+        &quot;gridsize&quot; : 6,
+        &quot;turn&quot; : 0,
+        &quot;playerWhite&quot; : &quot;bob&quot;,
+        &quot;playerBlack&quot; : &quot;alice&quot;,
+        &quot;gameboard&quot;: [
+            [ 0, 0, 0, 0, 0, 0],
+            [ 0, 1, 2, 0, 0, 0],
+            [ 0, 1, 2, 0, 1, 2],
+            [ 0, 0, 0, 0, 0, 0],
+            [ 0, 0, 0, 0, 0, 0],
+            [ 0, 0, 0, 0, 0, 0]
+        ]
+    }
+</code></pre></li>
+
+<li><p>Response 400 (application/json)</p>
+
+<pre><code>{
+    &quot;message&quot; : &quot;Invalid move&quot;
+}
+</code></pre></li>
+
+<li><p>Response 404</p></li>
+</ul>
+
+                  
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <ul class="list-inline text-center">
+                    
+                      <li>
+                        <a href="mailto:luoxsan@foxmail.com">
+                          <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                          </span>
+                        </a>
+                      </li>
+                    
+                    
+                    <li>
+                      <a href="https://github.com/xiansanluo">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                      </a>
+                    </li>
+                    
+                  </ul>
+                  <p class="copyright text-muted">Code released under the Apache 2.0 license.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="http://enhome.vip//js/jquery.min.js"></script>
+
+    
+    <script src="http://enhome.vip//js/bootstrap.min.js"></script>
+
+    
+    <script src="http://enhome.vip//js/clean-blog.js"></script>
+
+    
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-123-45', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+</body>
+
+</html>
+
